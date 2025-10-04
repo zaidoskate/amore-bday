@@ -1,0 +1,76 @@
+$wine: #170000;
+$text-color: #fff;
+$transition: 1000ms;
+
+
+:root {
+--wine: #{$wine};
+--text-color: #{$text-color};
+--transition: #{$transition};
+}
+
+
+* { box-sizing: border-box; }
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: Inter, system-ui, Segoe UI, Roboto, "Helvetica Neue", Arial;
+}
+
+
+.message-overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background: var(--wine);
+    color: var(--text-color);
+    z-index: 40;
+    transition: opacity var(--transition) ease;
+    opacity: 1;
+}
+
+
+.message-content {
+    text-align: center;
+    padding: 2rem;
+    max-width: 90%;
+}
+
+
+.message-text {
+    font-size: 3rem;
+    line-height: 1.1;
+    margin: 0;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+    font-family: "Merriweather", serif;
+}
+
+
+.message-sub {
+    margin-top: 0.6rem;
+    font-weight: 400;
+    opacity: 0.95;
+    font-family: "Merriweather", serif;
+}
+
+.black-overlay {
+  position: fixed;
+  inset: 0;
+  background: black;
+  opacity: 1;
+  pointer-events: none;
+  z-index: 50;
+  transition: opacity var(--transition) ease;
+}
+
+.merriweather {
+  font-family: "Merriweather", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
