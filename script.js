@@ -1,9 +1,18 @@
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 const messages = [
-    { text: "Mi amor feliz cumpleaños", sub: "" },
+    { text: "Mi amor, feliz cumpleaños", sub: "" },
     { text: "Espero que este regalo te guste", sub: "Con todo mi cariño" },
 ];
-const MESSAGE_DURATION = 5000; // duración visible de cada mensaje (ms)
-const FADE_DURATION = 1000; // duración del fundido (ms)
+const MESSAGE_DURATION = 5000;
+const FADE_DURATION = 1000;
 const overlay = document.getElementById("messageOverlay");
 const black = document.getElementById("blackOverlay");
 const messageText = document.getElementById("messageText");
@@ -36,39 +45,36 @@ function hideOverlayAndShowMain() {
             throw new Error("Error al cargar main.html");
         return response.text();
     })
-        .then((html) => {
+        .then((html) => __awaiter(this, void 0, void 0, function* () {
         main.innerHTML = html;
         main.classList.add("show");
         main.style.opacity = "1";
-    })
+        const { initMainPage } = yield import("./main.js");
+        initMainPage();
+    }))
         .catch((err) => console.error(err));
 }
-async function runSequence() {
-    if (!black)
-        return;
-    // --- FADE IN inicial ---
-    fadeBlackTo(1); // aseguramos que empiece negro
-    await sleep(500); // pequeña pausa por estética
-    fadeBlackTo(0); // se desvanece lentamente
-    await sleep(FADE_DURATION);
-    // --- Primer mensaje ---
-    showMessage(0);
-    await sleep(MESSAGE_DURATION);
-    // --- Transición a negro ---
-    fadeBlackTo(1);
-    await sleep(FADE_DURATION);
-    // --- Segundo mensaje ---
-    showMessage(1);
-    await sleep(500); // cambio de texto antes de desvanecer negro
-    fadeBlackTo(0);
-    await sleep(MESSAGE_DURATION);
-    // --- Transición final a negro ---
-    fadeBlackTo(1);
-    await sleep(FADE_DURATION);
-    // --- Mostrar página principal ---
-    hideOverlayAndShowMain();
+function runSequence() {
+    return __awaiter(this, void 0, void 0, function* () {
+        if (!black)
+            return;
+        fadeBlackTo(1);
+        yield sleep(500);
+        fadeBlackTo(0);
+        yield sleep(FADE_DURATION);
+        showMessage(0);
+        yield sleep(MESSAGE_DURATION);
+        fadeBlackTo(1);
+        yield sleep(FADE_DURATION);
+        showMessage(1);
+        yield sleep(500);
+        fadeBlackTo(0);
+        yield sleep(MESSAGE_DURATION);
+        fadeBlackTo(1);
+        yield sleep(FADE_DURATION);
+        hideOverlayAndShowMain();
+    });
 }
-// Ejecutar secuencia cuando el DOM esté listo
 document.addEventListener("DOMContentLoaded", () => {
     document.documentElement.style.setProperty("--transition", `${FADE_DURATION}ms`);
     runSequence();
