@@ -169,6 +169,15 @@ html, body {
   }
 }
 
+@media (max-width: 768px) {
+  .photo-section img {
+    width: 80vw;
+    max-width: 90%; 
+    height: auto;
+    border-radius: 16px;
+  }
+}
+
 .footer {
   position: relative;
   text-align: center;
